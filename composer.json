@@ -1,5 +1,5 @@
 {
-    "name": "georgehadjisavva/eleven-api-client",
+    "name": "georgehadjisavva/elevenlabs-api-client",
     "description": "Wrapper client for eleven api text to voice api",
     "type": "library",
     "license": "MIT",
