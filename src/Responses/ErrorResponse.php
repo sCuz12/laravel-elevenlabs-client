@@ -10,8 +10,6 @@ class ErrorResponse {
 
     public function __construct(int $status , string $message)
     {
-         var_dump($message);
-    ob_flush();
         $this->status  = $status;
         $this->message = $this->customMessage($status,$message);
     }
@@ -28,5 +26,12 @@ class ErrorResponse {
 
     public function getMessage() {
         return $this->message;
+    }
+
+    public function getResponse() : array {
+        return [
+            'status' => $this->status,
+            'message' => $this->message
+        ];
     }
 }

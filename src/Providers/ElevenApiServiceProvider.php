@@ -10,13 +10,18 @@ class ElevenApiServiceProvider extends ServiceProvider {
     {
         $this->mergeConfigFrom(__DIR__.'/../config/elevenlabs-client.php', 'elevenlabs-client');
 
-        $this->app->singleton('ElevenClient', function ($app) {
-            return new ElevenApiClient($app['config']['eleven-api.api_key']);
-        });
+   
+
     }
 
     public function boot()
     {
+        $this->app->singleton(ElevenApiClient::class, function ($app) {
+            $apiKey = config('elevenlabs-client.api_token'); 
+     
+            return new ElevenApiClient($apiKey);
+        });
+
         $this->publishes([
             __DIR__.'/../config/elevenlabs-client.php' => config_path('elevenlabs-client.php'),
         ], 'config');

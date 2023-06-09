@@ -25,4 +25,12 @@ class SuccessResponse {
     {
         return $this->message;
     }
+
+
+    public function getResponse():array {
+        return [
+            'status' => $this->status,
+            'message' => $this->message,
+        ];
+    }
 }

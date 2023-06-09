@@ -54,7 +54,7 @@ class ElevenApiClient implements ElevenClientInterface
      *
      * @return SuccessResponse|ErrorResponse The generated voice response.
      */
-    public function generateVoice(string $content , string $voice_id = VoicesEnum::RACHEL, bool $optimize_latency = LatencyOptimizationEnum::DEFAULT):SuccessResponse|ErrorResponse {
+    public function generateVoice(string $content , string $voice_id = VoicesEnum::RACHEL, bool $optimize_latency = LatencyOptimizationEnum::DEFAULT):array|ErrorResponse {
         try {
             $response = $this->httpClient->post('text-to-speech/'. $voice_id,[
                 'json' => [
@@ -65,13 +65,13 @@ class ElevenApiClient implements ElevenClientInterface
             $status = $response->getStatusCode();
 
             if($status === 200) {
-                return new SuccessResponse($status, "Voice Succesfully Generated");
+                return (new SuccessResponse($status, "Voice Succesfully Generated"))->getResponse();
             } 
             
         } catch(Exception $e) {
             // Decode the JSON string into a PHP associative array
             $errorMessageException = json_encode($e->getMessage());
-            $errorMessage          = new ErrorResponse($e->getCode(),$errorMessageException);
+            $errorMessage          = (new ErrorResponse($e->getCode(),$errorMessageException))->getResponse();
 
             return $errorMessage;
         }
