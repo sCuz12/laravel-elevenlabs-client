@@ -52,9 +52,9 @@ class ElevenApiClient implements ElevenClientInterface
      * @param string $voice_id The ID of the voice to use (default: 21m00Tcm4TlvDq8ikWAM ).
      * @param bool $optimize_latency Whether to optimize for latency (default: 0 ).
      *
-     * @return SuccessResponse|ErrorResponse The generated voice response.
+     * @return array status,message
      */
-    public function generateVoice(string $content , string $voice_id = VoicesEnum::RACHEL, bool $optimize_latency = LatencyOptimizationEnum::DEFAULT):array|ErrorResponse {
+    public function generateVoice(string $content , string $voice_id = VoicesEnum::RACHEL, bool $optimize_latency = LatencyOptimizationEnum::DEFAULT):array {
         try {
             $response = $this->httpClient->post('text-to-speech/'. $voice_id,[
                 'json' => [
@@ -74,6 +74,20 @@ class ElevenApiClient implements ElevenClientInterface
             $errorMessage          = (new ErrorResponse($e->getCode(),$errorMessageException))->getResponse();
 
             return $errorMessage;
+        }
+    }
+
+    public function getModels(){
+        try {
+            $response = $this->httpClient->get('models');
+            
+            $data = json_decode($response->getBody(), true);
+            dd($data);
+            return $data['voices'] ?? [];
+
+        } catch(Exception $e){
+            $errorMessageException = json_encode($e->getMessage());
+            return (new ErrorResponse($e->getCode(),$errorMessageException))->getResponse();
         }
     }
 }
