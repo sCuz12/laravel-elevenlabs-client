@@ -34,7 +34,7 @@ class ElevenApiClient implements ElevenClientInterface
     }
 
     /**
-     * Get the list of voices.
+     * Retrieve all the available voices
      *
      * @return array The list of voices.
     */
@@ -45,6 +45,15 @@ class ElevenApiClient implements ElevenClientInterface
         return $data['voices'] ?? [];
     }
 
+    /**
+     * Generate a voice based on the provided content.
+     *
+     * @param string $content The content for voice generation.
+     * @param string $voice_id The ID of the voice to use (default: 21m00Tcm4TlvDq8ikWAM ).
+     * @param bool $optimize_latency Whether to optimize for latency (default: 0 ).
+     *
+     * @return SuccessResponse|ErrorResponse The generated voice response.
+     */
     public function generateVoice(string $content , string $voice_id = VoicesEnum::RACHEL, bool $optimize_latency = LatencyOptimizationEnum::DEFAULT):SuccessResponse|ErrorResponse {
         try {
             $response = $this->httpClient->post('text-to-speech/'. $voice_id,[

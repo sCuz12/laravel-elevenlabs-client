@@ -5,8 +5,11 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Georgehadjisavva\\ElevenApiClient\\": "src/"
-        }
+            "Georgehadjisavva\\ElevenApiClient\\": "src/" 
+        },
+        "files": [
+            "src/Providers/ElevenApiServiceProvider.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
@@ -25,11 +28,13 @@
 
     "require": {
         "php": "^8.0",
-        "guzzlehttp/guzzle": "^7.7"
+        "guzzlehttp/guzzle": "^7.7",
+        "illuminate/support": "^10.13"
     },
     "require-dev":{
         "pestphp/pest": "^2.6",
-        "vimeo/psalm": "^5.12"
+        "vimeo/psalm": "^5.12",
+        "illuminate/support": "^10.13"
     },
     "prefer-stable": true,
     "config": {
