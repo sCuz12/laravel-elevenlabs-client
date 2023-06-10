@@ -5,7 +5,7 @@ use Georgehadjisavva\ElevenApiClient\Interfaces\ElevenClientInterface;
 use Georgehadjisavva\ElevenApiClient\Responses\ErrorResponse;
 
 beforeEach(function () {
-    $this->apiKey = ''; // add your token
+    $this->apiKey = 'cc2fc144a90d456a6d7c9deb202888b6'; // add your token
     $this->client = new ElevenApiClient($this->apiKey);
 });
 
@@ -16,7 +16,7 @@ test('Correct Instance of ElevenApiClientInterface', function () {
 
 
 test('Check get voices endpoint' , function(){
-    $results = $this->client->getVoices(); 
+    $results = $this->client->voices()->getAll(); 
     expect($results)->toBeArray();
     // var_dump($results);
     // ob_flush();

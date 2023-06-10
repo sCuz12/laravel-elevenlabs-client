@@ -5,10 +5,10 @@ namespace Georgehadjisavva\ElevenApiClient;
 use Exception;
 use Georgehadjisavva\ElevenApiClient\Enums\LatencyOptimizationEnum;
 use Georgehadjisavva\ElevenApiClient\Enums\VoicesEnum;
-use Georgehadjisavva\ElevenApiClient\Exceptions\UnauthorizedException;
 use Georgehadjisavva\ElevenApiClient\Interfaces\ElevenClientInterface;
 use Georgehadjisavva\ElevenApiClient\Responses\ErrorResponse;
 use Georgehadjisavva\ElevenApiClient\Responses\SuccessResponse;
+use Georgehadjisavva\ElevenApiClient\Voice\Voice;
 use GuzzleHttp\Client;
 
 
@@ -33,16 +33,15 @@ class ElevenApiClient implements ElevenClientInterface
         ]);
     }
 
-    /**
-     * Retrieve all the available voices
-     *
-     * @return array The list of voices.
-    */
-    public function getVoices() : array
+    public function getHttpClient(): Client
     {
-        $response = $this->httpClient->get('voices');
-        $data = json_decode($response->getBody(), true);
-        return $data['voices'] ?? [];
+        return $this->httpClient;
+    }
+
+
+    public function voices()
+    {
+        return new Voice($this);
     }
 
     /**
@@ -54,40 +53,40 @@ class ElevenApiClient implements ElevenClientInterface
      *
      * @return array status,message
      */
-    public function generateVoice(string $content , string $voice_id = VoicesEnum::RACHEL, bool $optimize_latency = LatencyOptimizationEnum::DEFAULT):array {
+    public function generateVoice(string $content, string $voice_id = VoicesEnum::RACHEL, bool $optimize_latency = LatencyOptimizationEnum::DEFAULT): array
+    {
         try {
-            $response = $this->httpClient->post('text-to-speech/'. $voice_id,[
+            $response = $this->httpClient->post('text-to-speech/' . $voice_id, [
                 'json' => [
                     'text' => $content,
                 ],
             ]);
-            
+
             $status = $response->getStatusCode();
 
-            if($status === 200) {
+            if ($status === 200) {
                 return (new SuccessResponse($status, "Voice Succesfully Generated"))->getResponse();
-            } 
-            
-        } catch(Exception $e) {
+            }
+        } catch (Exception $e) {
             // Decode the JSON string into a PHP associative array
             $errorMessageException = json_encode($e->getMessage());
-            $errorMessage          = (new ErrorResponse($e->getCode(),$errorMessageException))->getResponse();
+            $errorMessage          = (new ErrorResponse($e->getCode(), $errorMessageException))->getResponse();
 
             return $errorMessage;
         }
     }
 
-    public function getModels(){
+    public function getModels()
+    {
         try {
             $response = $this->httpClient->get('models');
-            
+
             $data = json_decode($response->getBody(), true);
             dd($data);
             return $data['voices'] ?? [];
-
-        } catch(Exception $e){
+        } catch (Exception $e) {
             $errorMessageException = json_encode($e->getMessage());
-            return (new ErrorResponse($e->getCode(),$errorMessageException))->getResponse();
+            return (new ErrorResponse($e->getCode(), $errorMessageException))->getResponse();
         }
     }
 }

@@ -36,10 +36,16 @@
         "vimeo/psalm": "^5.12",
         "illuminate/support": "^10.13"
     },
+    "scripts" : {
+        "test" : "./vendor/bin/pest"
+    },
     "prefer-stable": true,
     "config": {
         "optimize-autoloader": true,
         "sort-packages": true,
-        "preferred-install": "dist"
+        "preferred-install": "dist",
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
     }
 }
