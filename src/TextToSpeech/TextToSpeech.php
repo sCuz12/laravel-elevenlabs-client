@@ -9,6 +9,7 @@ use Georgehadjisavva\ElevenLabsClient\ElevenLabsClient;
 use Georgehadjisavva\ElevenLabsClient\Enums\LatencyOptimizationEnum;
 use Georgehadjisavva\ElevenLabsClient\Enums\ModelsEnum;
 use Georgehadjisavva\ElevenLabsClient\Enums\VoicesEnum;
+use Georgehadjisavva\ElevenLabsClient\Enums\VoiceSettingsEnum;
 use Georgehadjisavva\ElevenLabsClient\Responses\ErrorResponse;
 use Georgehadjisavva\ElevenLabsClient\Responses\SuccessResponse;
 use Georgehadjisavva\ElevenLabsClient\Traits\ExceptionHandlerTrait;
@@ -52,6 +53,13 @@ class TextToSpeech implements TextToSpeechInterface
             ];
 
             if(!empty($voice_settings)) {
+          
+                $diff = array_diff_key($voice_settings,array_flip(VoiceSettingsEnum::ALLOWED_VOICESETTINGS));
+                
+                //ensure the validity of voice_settings keys
+                if($diff) {
+                    return (new ErrorResponse(400,"You provided invalid voice settings"))->getResponse();
+                }
                 $requestData['voice_settings'] = $voice_settings;
             };
 
@@ -97,10 +105,16 @@ class TextToSpeech implements TextToSpeechInterface
             ];
 
             if(!empty($voice_settings)) {
+                $diff = array_diff_key($voice_settings,array_flip(VoiceSettingsEnum::ALLOWED_VOICESETTINGS));
+
+                //ensure the validity of voice_settings keys
+                if($diff) {
+                    return (new ErrorResponse(400,"You provided invalid voice settings"))->getResponse();
+                }
                 $requestData['voice_settings'] = $voice_settings;
             };
 
-            $response = $this->client->post('text-to-speech/' . $voice_id . '/stream', [
+            $response = $this->client->post('text-to-speech/' . $voice_id. '/stream', [
                 'json' => $requestData,
             ]);
 
