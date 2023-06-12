@@ -41,9 +41,23 @@ class Voice implements VoiceInterface
      * Returns metadata about a specific voice.
      *
      * @return array metadata of voice
-    */
-    public function getVoice(): array
+     */
+    public function getVoice(string $voice_id): array
     {
+        try {
+            $response = $this->client->get('voices/'.$voice_id);
+            $data     = json_decode($response->getBody(), true);
+            return $data;
+
+        } catch ( Exception $e){
+            $body = json_decode($e->getResponse()->getBody());
+
+            if (isset($body->detail->message)) {
+                $errorMessage = $body->detail->message;
+            }
+
+            return (new ErrorResponse($e->getCode(), $errorMessage  ))->getResponse();
+        }
         //TODO:
        return [];
     }
