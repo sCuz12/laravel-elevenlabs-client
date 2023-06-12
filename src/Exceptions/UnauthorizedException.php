@@ -1,5 +1,5 @@
 <?php 
-namespace Georgehadjisavva\ElevenApiClient\Exceptions;
+namespace Georgehadjisavva\ElevenLabsClient\Exceptions;
 
 use Exception;
 

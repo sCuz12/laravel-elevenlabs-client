@@ -8,6 +8,7 @@ use Georgehadjisavva\ElevenLabsClient\Enums\VoicesEnum;
 use Georgehadjisavva\ElevenLabsClient\Interfaces\ElevenLabsClientInterface;
 use Georgehadjisavva\ElevenLabsClient\Responses\ErrorResponse;
 use Georgehadjisavva\ElevenLabsClient\Responses\SuccessResponse;
+use Georgehadjisavva\ElevenLabsClient\TextToSpeech\TextToSpeech;
 use Georgehadjisavva\ElevenLabsClient\Voice\Voice;
 use GuzzleHttp\Client;
 
@@ -39,9 +40,24 @@ class ElevenLabsClient implements ElevenLabsClientInterface
     }
 
 
-    public function voices()
+    /**
+     * Get the Voice Instance.
+     *
+     * @return Voice The Voice instance.
+     */
+    public function voices(): Voice
     {
         return new Voice($this);
+    }
+
+    /**
+     * Get the TextToSpeech Instance.
+     *
+     * @return TextToSpeech The Voice instance.
+     */
+    public function textToSpeech()
+    {
+        return new TextToSpeech($this);
     }
 
     /**
