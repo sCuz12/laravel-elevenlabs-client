@@ -4,9 +4,11 @@ namespace Georgehadjisavva\ElevenLabsClient\Voice;
 use Exception;
 use Georgehadjisavva\ElevenLabsClient\Responses\ErrorResponse;
 use Georgehadjisavva\ElevenLabsClient\Interfaces\ElevenLabsClientInterface;
+use Georgehadjisavva\ElevenLabsClient\Traits\ExceptionHandlerTrait;
 
 class Voice implements VoiceInterface
 {
+    use ExceptionHandlerTrait;
     protected $client;
 
     public function __construct(ElevenLabsClientInterface $client)
@@ -26,13 +28,7 @@ class Voice implements VoiceInterface
             $data     = json_decode($response->getBody(), true);
             return $data['voices'] ?? [];
         } catch (Exception $e) {
-            $body = json_decode($e->getResponse()->getBody());
-
-            if (isset($body->detail->message)) {
-                $errorMessage = $body->detail->message;
-            }
-
-            return (new ErrorResponse($e->getCode(), $errorMessage  ))->getResponse();
+            return $this->handleException($e);
         }
     }
 
@@ -49,13 +45,7 @@ class Voice implements VoiceInterface
             return $data;
 
         } catch ( Exception $e){
-            $body = json_decode($e->getResponse()->getBody());
-
-            if (isset($body->detail->message)) {
-                $errorMessage = $body->detail->message;
-            }
-
-            return (new ErrorResponse($e->getCode(), $errorMessage  ))->getResponse();
+            return $this->handleException($e);
         }
     }
 
@@ -74,14 +64,7 @@ class Voice implements VoiceInterface
 
             return $data;
         } catch (Exception $e) {
-            
-            $body = json_decode($e->getResponse()->getBody());
-        
-            if (isset($body->detail->message)) {
-                $errorMessage = $body->detail->message;
-            }
-
-            return (new ErrorResponse($e->getCode(), $errorMessage))->getResponse();
+            return $this->handleException($e);
         }
     }
 
@@ -102,13 +85,7 @@ class Voice implements VoiceInterface
 
             return $data;
         } catch (Exception $e) {
-            $body = json_decode($e->getResponse()->getBody());
-        
-            if (isset($body->detail->message)) {
-                $errorMessage = $body->detail->message;
-            }
-
-            return (new ErrorResponse($e->getCode(), $errorMessage))->getResponse();
+            $this->handleException($e);
         }
     }
 }

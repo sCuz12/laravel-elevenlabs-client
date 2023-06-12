@@ -7,12 +7,15 @@ namespace Georgehadjisavva\ElevenLabsClient\TextToSpeech;
 use Exception;
 use Georgehadjisavva\ElevenLabsClient\ElevenLabsClient;
 use Georgehadjisavva\ElevenLabsClient\Enums\LatencyOptimizationEnum;
+use Georgehadjisavva\ElevenLabsClient\Enums\ModelsEnum;
 use Georgehadjisavva\ElevenLabsClient\Enums\VoicesEnum;
 use Georgehadjisavva\ElevenLabsClient\Responses\ErrorResponse;
 use Georgehadjisavva\ElevenLabsClient\Responses\SuccessResponse;
+use Georgehadjisavva\ElevenLabsClient\Traits\ExceptionHandlerTrait;
 
 class TextToSpeech implements TextToSpeechInterface
 {
+    use ExceptionHandlerTrait;
 
     protected $client;
 
@@ -21,22 +24,39 @@ class TextToSpeech implements TextToSpeechInterface
         $this->client = $client->getHttpClient();
     }
 
-    /**
+     
+   /**
      * Generate a voice based on the provided content.
      *
-     * @param string $content The content for voice generation.
-     * @param string $voice_id The ID of the voice to use (default: 21m00Tcm4TlvDq8ikWAM ).
-     * @param bool $optimize_latency Whether to optimize for latency (default: 0 ).
+     * @param string  $content The content for voice generation.
+     * @param string  $voice_id The ID of the voice to use (default: 21m00Tcm4TlvDq8ikWAM ).
+     * @param bool    $optimize_latency Whether to optimize for latency (default: 0 ).
+     * @param ?string $model_id of the model that will be used
+     * @param ?array  $voice_settings : Voice settings overriding stored setttings for the given voice
      *
      * @return array status,message
+     * 
+     * See : https://docs.elevenlabs.io/api-reference/text-to-speech
      */
-    public function generate(string $content, string $voice_id = VoicesEnum::RACHEL, bool $optimize_latency = LatencyOptimizationEnum::DEFAULT)
+    public function generate(string $content, 
+    string $voice_id = VoicesEnum::RACHEL, 
+    ?bool $optimize_latency = LatencyOptimizationEnum::DEFAULT,
+    ?string $model_id = ModelsEnum::ELEVEN_MONOLINGUAL_V1, 
+    ?array $voice_settings = []) : array
     {
         try {
-            $response = $this->client->post('text-to-speech/' . $voice_id, [
-                'json' => [
+
+            $requestData = [
                     'text' => $content,
-                ],
+                    'model_id' => $model_id
+            ];
+
+            if(!empty($voice_settings)) {
+                $requestData['voice_settings'] = $voice_settings;
+            };
+
+            $response = $this->client->post('text-to-speech/' . $voice_id, [
+                'json' => $requestData,
             ]);
 
             $status = $response->getStatusCode();
@@ -45,16 +65,8 @@ class TextToSpeech implements TextToSpeechInterface
                 return (new SuccessResponse($status, "Voice Succesfully Generated"))->getResponse();
             }
         } catch (Exception $e) {
-            // Decode the JSON string into a PHP associative array
-            $body = json_decode($e->getResponse()->getBody()->getContents());
-
-            $errorMessage = "Error while processing";
-
-            if (isset($body->detail->message)) {
-                $errorMessage = $body->detail->message;
-            }
-
-            return (new ErrorResponse($e->getCode(), $errorMessage  ))->getResponse();
+            return $this->handleException($e);
+          
         }
     }
 }
