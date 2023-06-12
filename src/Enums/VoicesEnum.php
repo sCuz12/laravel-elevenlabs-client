@@ -1,5 +1,5 @@
 <?php
-namespace Georgehadjisavva\ElevenApiClient\Enums;
+namespace Georgehadjisavva\ElevenLabsClient\Enums;
 
 abstract class VoicesEnum
 {

@@ -1,10 +1,10 @@
 <?php 
-namespace Georgehadjisavva\ElevenApiClient\Providers;
+namespace Georgehadjisavva\ElevenLabsClient\Providers;
 
-use Georgehadjisavva\ElevenApiClient\ElevenApiClient;
+use Georgehadjisavva\ElevenLabsClient\ElevenLabsClient;
 use Illuminate\Support\ServiceProvider;
 
-class ElevenApiServiceProvider extends ServiceProvider {
+class ElevenLabsClientServiceProvider extends ServiceProvider {
 
     public function register()
     {
@@ -16,10 +16,10 @@ class ElevenApiServiceProvider extends ServiceProvider {
 
     public function boot()
     {
-        $this->app->singleton(ElevenApiClient::class, function ($app) {
+        $this->app->singleton(ElevenLabsClient::class, function ($app) {
             $apiKey = config('elevenlabs-client.api_token'); 
      
-            return new ElevenApiClient($apiKey);
+            return new ElevenLabsClient($apiKey);
         });
 
         $this->publishes([

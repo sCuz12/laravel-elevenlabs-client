@@ -1,16 +1,15 @@
 <?php
-namespace Georgehadjisavva\ElevenApiClient\Voice;
+namespace Georgehadjisavva\ElevenLabsClient\Voice;
 
 use Exception;
-use Georgehadjisavva\ElevenApiClient\Interfaces\ElevenClientInterface;
-use Georgehadjisavva\ElevenApiClient\Responses\ErrorResponse;
-
+use Georgehadjisavva\ElevenLabsClient\Responses\ErrorResponse;
+use Georgehadjisavva\ElevenLabsClient\Interfaces\ElevenLabsClientInterface;
 
 class Voice implements VoiceInterface
 {
     protected $client;
 
-    public function __construct(ElevenClientInterface $client)
+    public function __construct(ElevenLabsClientInterface $client)
     {
         $this->client = $client->getHttpClient();
     }
@@ -58,8 +57,6 @@ class Voice implements VoiceInterface
 
             return (new ErrorResponse($e->getCode(), $errorMessage  ))->getResponse();
         }
-        //TODO:
-       return [];
     }
 
 

@@ -5,15 +5,15 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Georgehadjisavva\\ElevenApiClient\\": "src/" 
+            "Georgehadjisavva\\ElevenLabsClient\\": "src/" 
         },
         "files": [
-            "src/Providers/ElevenApiServiceProvider.php"
+            "src/Providers/ElevenLabsClientServiceProvider.php"
         ]
     },
     "autoload-dev": {
         "psr-4": {
-            "Georgehadjisavva\\ElevenApiClient\\Tests\\": "tests/"
+            "Georgehadjisavva\\ElevenLabsClient\\Tests\\": "tests/"
         }
     },
     "authors": [

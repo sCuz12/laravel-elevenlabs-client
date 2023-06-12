@@ -1,18 +1,18 @@
 <?php
 
-namespace Georgehadjisavva\ElevenApiClient;
+namespace Georgehadjisavva\ElevenLabsClient;
 
 use Exception;
-use Georgehadjisavva\ElevenApiClient\Enums\LatencyOptimizationEnum;
-use Georgehadjisavva\ElevenApiClient\Enums\VoicesEnum;
-use Georgehadjisavva\ElevenApiClient\Interfaces\ElevenClientInterface;
-use Georgehadjisavva\ElevenApiClient\Responses\ErrorResponse;
-use Georgehadjisavva\ElevenApiClient\Responses\SuccessResponse;
-use Georgehadjisavva\ElevenApiClient\Voice\Voice;
+use Georgehadjisavva\ElevenLabsClient\Enums\LatencyOptimizationEnum;
+use Georgehadjisavva\ElevenLabsClient\Enums\VoicesEnum;
+use Georgehadjisavva\ElevenLabsClient\Interfaces\ElevenLabsClientInterface;
+use Georgehadjisavva\ElevenLabsClient\Responses\ErrorResponse;
+use Georgehadjisavva\ElevenLabsClient\Responses\SuccessResponse;
+use Georgehadjisavva\ElevenLabsClient\Voice\Voice;
 use GuzzleHttp\Client;
 
 
-class ElevenApiClient implements ElevenClientInterface
+class ElevenLabsClient implements ElevenLabsClientInterface
 {
     protected $apiKey;
 

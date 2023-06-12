@@ -1,5 +1,5 @@
 <?php
-namespace Georgehadjisavva\ElevenApiClient\Voice;
+namespace Georgehadjisavva\ElevenLabsClient\Voice;
 
 interface VoiceInterface {
     public function getAll();

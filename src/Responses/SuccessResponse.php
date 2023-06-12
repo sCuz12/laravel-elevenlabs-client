@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Georgehadjisavva\ElevenApiClient\Responses;
+namespace Georgehadjisavva\ElevenLabsClient\Responses;
 
 class SuccessResponse {
 
