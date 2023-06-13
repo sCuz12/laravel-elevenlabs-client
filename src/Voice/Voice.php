@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Georgehadjisavva\ElevenLabsClient\Voice;
@@ -6,6 +7,7 @@ namespace Georgehadjisavva\ElevenLabsClient\Voice;
 use Exception;
 use Georgehadjisavva\ElevenLabsClient\Responses\ErrorResponse;
 use Georgehadjisavva\ElevenLabsClient\Interfaces\ElevenLabsClientInterface;
+use Georgehadjisavva\ElevenLabsClient\Responses\SuccessResponse;
 use Georgehadjisavva\ElevenLabsClient\Traits\ExceptionHandlerTrait;
 
 class Voice implements VoiceInterface
@@ -46,18 +48,17 @@ class Voice implements VoiceInterface
     public function getVoice(string $voice_id): array
     {
         try {
-            $response = $this->client->get('voices/'.$voice_id);
+            $response = $this->client->get('voices/' . $voice_id);
             $data     = json_decode($response->getBody(), true);
             return $data;
-
-        } catch ( Exception $e){
+        } catch (Exception $e) {
             return $this->handleException($e);
         }
     }
 
 
 
-     /**
+    /**
      * Gets the default settings for voices. "similarity_boost" corresponds to"Clarity + Similarity Enhancement" 
      * in the web app and "stability" corresponds to "Stability" slider in the web ap
      *
@@ -65,7 +66,8 @@ class Voice implements VoiceInterface
      * 
      * See: https://docs.elevenlabs.io/api-reference/voices-settings-default
      */
-    public function defaultSettings() {
+    public function defaultSettings()
+    {
         try {
             $response = $this->client->get('voices/settings/default');
             $data     = json_decode($response->getBody(), true);
@@ -84,18 +86,63 @@ class Voice implements VoiceInterface
      * 
      * See: https://docs.elevenlabs.io/api-reference/voices-settings
      */
-    public function voiceSettings(string $voice_id) {
-        if(empty($voice_id)) {
-            return (new ErrorResponse(400,"voice_id is missing"));
+    public function voiceSettings(string $voice_id)
+    {
+        if (empty($voice_id)) {
+            return (new ErrorResponse(400, "voice_id is missing"));
         }
 
         try {
-            $response = $this->client->get('voices/'.$voice_id.'/settings');
+            $response = $this->client->get('voices/' . $voice_id . '/settings');
             $data     = json_decode($response->getBody(), true);
 
             return $data;
         } catch (Exception $e) {
             $this->handleException($e);
+        }
+    }
+
+      /**
+     * Add a new voice to your collection of voices in VoiceLab.
+     *
+     * @return array status,message
+     * 
+     * See: https://docs.elevenlabs.io/api-reference/voices-add
+     */
+    public function addVoice(string $name, ?string $description, string $files, ?string $labels = "American")
+    {
+        try {
+
+            $requestData = [
+                [
+                    'name' => 'name',
+                    'contents' => $name,
+                ],
+                [
+                    'name' => 'files',
+                    'contents' => fopen($files, 'r'),
+                ],
+                [
+                    'name' => 'description',
+                    'contents' => $description,
+                ],
+                [
+                    'name' => 'labels',
+                    'contents' => '{"accent":"'.$labels.'"}',
+                ],
+            ];
+
+            $response = $this->client->post('voices/add', [
+                'multipart' => $requestData,
+            ]);
+
+            $status = $response->getStatusCode();
+
+            if ($status === 200) {
+                return (new SuccessResponse($status, "Your Custom Voice Succesfully Created"))->getResponse();
+            }
+        } catch (Exception $e) {
+            return $this->handleException($e);
         }
     }
 }

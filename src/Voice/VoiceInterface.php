@@ -6,4 +6,5 @@ interface VoiceInterface {
     public function defaultSettings();
     public function voiceSettings(string $voice_id);
     public function getVoice(string $voice_id);
+    public function addVoice(string $name, ?string $description , string $files, ?string $labels);
 }
