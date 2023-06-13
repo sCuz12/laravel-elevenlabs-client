@@ -3,17 +3,13 @@
 namespace Georgehadjisavva\ElevenLabsClient;
 
 use Exception;
-use Georgehadjisavva\ElevenLabsClient\Enums\LatencyOptimizationEnum;
-use Georgehadjisavva\ElevenLabsClient\Enums\VoicesEnum;
+use Georgehadjisavva\ElevenLabsClient\History\History;
 use Georgehadjisavva\ElevenLabsClient\Interfaces\ElevenLabsClientInterface;
 use Georgehadjisavva\ElevenLabsClient\Responses\ErrorResponse;
-use Georgehadjisavva\ElevenLabsClient\Responses\SuccessResponse;
 use Georgehadjisavva\ElevenLabsClient\TextToSpeech\TextToSpeech;
 use Georgehadjisavva\ElevenLabsClient\TextToSpeech\TextToSpeechInterface;
 use Georgehadjisavva\ElevenLabsClient\Voice\Voice;
 use GuzzleHttp\Client;
-use History;
-use HistoryInterface;
 
 class ElevenLabsClient implements ElevenLabsClientInterface
 {
@@ -62,7 +58,12 @@ class ElevenLabsClient implements ElevenLabsClientInterface
         return new TextToSpeech($this);
     }
 
-    public function history() : HistoryInterface {
+    /**
+     * Get the History Instance.
+     *
+     * @return History The History instance.
+     */
+    public function history() : History {
         return new History($this);
     }
 
