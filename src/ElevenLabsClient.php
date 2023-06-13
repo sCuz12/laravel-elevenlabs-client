@@ -9,6 +9,7 @@ use Georgehadjisavva\ElevenLabsClient\Models\Models;
 use Georgehadjisavva\ElevenLabsClient\Responses\ErrorResponse;
 use Georgehadjisavva\ElevenLabsClient\TextToSpeech\TextToSpeech;
 use Georgehadjisavva\ElevenLabsClient\TextToSpeech\TextToSpeechInterface;
+use Georgehadjisavva\ElevenLabsClient\User\User;
 use Georgehadjisavva\ElevenLabsClient\Voice\Voice;
 use GuzzleHttp\Client;
 
@@ -77,17 +78,12 @@ class ElevenLabsClient implements ElevenLabsClientInterface
         return new Models($this);
     }
 
-    public function getModels()
-    {
-        try {
-            $response = $this->httpClient->get('models');
-
-            $data = json_decode($response->getBody(), true);
-            dd($data);
-            return $data['voices'] ?? [];
-        } catch (Exception $e) {
-            $errorMessageException = json_encode($e->getMessage());
-            return (new ErrorResponse($e->getCode(), $errorMessageException))->getResponse();
-        }
+    /**
+     * Get the Available User Instance.
+     *
+     * @return User
+     */
+    public function user() {
+        return new User($this);
     }
 }
