@@ -155,7 +155,7 @@ class Voice implements VoiceInterface
         }
     }
 
-       /**
+    /**
      * Edit voice to your collection of voices in VoiceLab.
      *
      * @return array status,message
@@ -198,4 +198,23 @@ class Voice implements VoiceInterface
             return $this->handleException($e);
         }
     }
+
+    /**
+     * Delete specific voice 
+     *
+     * @return array status,message
+     * 
+     * See: https://docs.elevenlabs.io/api-reference/voices-delete
+     */
+    public function deleteVoice(string $voice_id): array {
+        try {
+            $response = $this->client->delete('voices/'. $voice_id);
+            $status   = $response->getStatusCode();
+            return (new SuccessResponse($status,"Voice Succesfully Deleted"))->getResponse();
+    
+        } catch ( Exception $e){
+            return $this->handleException($e);
+        }
+    }
+
 }
