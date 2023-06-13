@@ -30,9 +30,11 @@ class Voice implements VoiceInterface
     public function getAll(): array
     {
         try {
-            $response = $this->client->get('voices');
-            $data     = json_decode($response->getBody(), true);
-            return $data['voices'] ?? [];
+            $response    = $this->client->get('voices');
+            $data        = $response->getBody()->getContents();
+            $decodedData = json_decode($data, true);
+
+            return $decodedData['voices'] ?? [];
         } catch (Exception $e) {
             return $this->handleException($e);
         }
@@ -49,8 +51,10 @@ class Voice implements VoiceInterface
     {
         try {
             $response = $this->client->get('voices/' . $voice_id);
-            $data     = json_decode($response->getBody(), true);
-            return $data;
+            $data        = $response->getBody()->getContents();
+            $decodedData = json_decode($data, true);
+
+            return $decodedData;
         } catch (Exception $e) {
             return $this->handleException($e);
         }
@@ -69,8 +73,11 @@ class Voice implements VoiceInterface
     public function defaultSettings()
     {
         try {
-            $response = $this->client->get('voices/settings/default');
-            $data     = json_decode($response->getBody(), true);
+            $response    = $this->client->get('voices/settings/default');
+            $data        = $response->getBody()->getContents();
+            $decodedData = json_decode($data, true);
+
+            return $decodedData;
 
             return $data;
         } catch (Exception $e) {
@@ -88,17 +95,19 @@ class Voice implements VoiceInterface
      */
     public function voiceSettings(string $voice_id)
     {
+
         if (empty($voice_id)) {
-            return (new ErrorResponse(400, "voice_id is missing"));
+            return (new ErrorResponse(400, "voice_id is missing"))->getResponse();
         }
 
         try {
             $response = $this->client->get('voices/' . $voice_id . '/settings');
-            $data     = json_decode($response->getBody(), true);
+            $data        = $response->getBody()->getContents();
+            $decodedData = json_decode($data, true);
 
-            return $data;
+            return $decodedData;
         } catch (Exception $e) {
-            $this->handleException($e);
+            return $this->handleException($e);
         }
     }
 
@@ -133,6 +142,50 @@ class Voice implements VoiceInterface
             ];
 
             $response = $this->client->post('voices/add', [
+                'multipart' => $requestData,
+            ]);
+
+            $status = $response->getStatusCode();
+
+            if ($status === 200) {
+                return (new SuccessResponse($status, "Your Custom Voice Succesfully Created"))->getResponse();
+            }
+        } catch (Exception $e) {
+            return $this->handleException($e);
+        }
+    }
+
+       /**
+     * Edit voice to your collection of voices in VoiceLab.
+     *
+     * @return array status,message
+     * 
+     * See: https://docs.elevenlabs.io/api-reference/voices-edit
+     */
+    public function editVoice(string $voice_id, string $name ,?string $description, ?string $files, ?string $labels="American")
+    {
+        try {
+
+            $requestData = [
+                [
+                    'name' => 'name',
+                    'contents' => $name,
+                ],
+                [
+                    'name' => 'files',
+                    'contents' => fopen($files, 'r'),
+                ],
+                [
+                    'name' => 'description',
+                    'contents' => $description,
+                ],
+                [
+                    'name' => 'labels',
+                    'contents' => '{"accent":"'.$labels.'"}',
+                ],
+            ];
+   
+            $response = $this->client->post('voices/' . $voice_id .'/edit', [
                 'multipart' => $requestData,
             ]);
 
