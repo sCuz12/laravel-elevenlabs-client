@@ -63,15 +63,24 @@ class History implements HistoryInterface
         }
     }
 
-    public function getHistoryItemAudio(string $history_item_id)
+    /**
+     * Returns the audio of an history item.
+     *
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse The file download response.
+     * 
+     * See : https://docs.elevenlabs.io/api-reference/history-audio
+     */
+    public function getHistoryItemAudio(string $history_item_id, string $fileName)
     {
         try {
             $response = $this->client->get('history/'. $history_item_id . '/audio');
 
-            dd($response->getBody()->getContents());
-            $data     = json_decode($response->getBody()->getContents(),true);
+            $contentFile = $response->getBody()->getContents();
+            $fileName    = $fileName . ".mp3";
+
+            Storage::disk('public')->put($fileName , $contentFile);
             
-            return $data;
+            return response()->download(storage_path('app/public/' . $fileName), $fileName);
 
         } catch ( Exception $e){
             return $this->handleException($e);
@@ -102,7 +111,7 @@ class History implements HistoryInterface
      * Download one or more history items. If one history item ID is provided, we will return a single audio file.
      *  If more than one history item IDs are provided, we will provide the history items packed into a .zip file.
      *
-     * @return array Status
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse The file download response.
      * 
      * See : https://docs.elevenlabs.io/api-reference/history-download
      */
