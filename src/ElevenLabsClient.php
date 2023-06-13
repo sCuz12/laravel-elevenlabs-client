@@ -5,6 +5,7 @@ namespace Georgehadjisavva\ElevenLabsClient;
 use Exception;
 use Georgehadjisavva\ElevenLabsClient\History\History;
 use Georgehadjisavva\ElevenLabsClient\Interfaces\ElevenLabsClientInterface;
+use Georgehadjisavva\ElevenLabsClient\Models\Models;
 use Georgehadjisavva\ElevenLabsClient\Responses\ErrorResponse;
 use Georgehadjisavva\ElevenLabsClient\TextToSpeech\TextToSpeech;
 use Georgehadjisavva\ElevenLabsClient\TextToSpeech\TextToSpeechInterface;
@@ -65,6 +66,15 @@ class ElevenLabsClient implements ElevenLabsClientInterface
      */
     public function history() : History {
         return new History($this);
+    }
+
+     /**
+     * Get the Available Models Instance.
+     *
+     * @return Models The Models instance.
+     */
+    public function models() : Models {
+        return new Models($this);
     }
 
     public function getModels()
