@@ -22,6 +22,8 @@ class Voice implements VoiceInterface
      * Retrieve all the available voices
      *
      * @return array The list of voices.
+     * 
+     * See: https://docs.elevenlabs.io/api-reference/voices
      */
     public function getAll(): array
     {
@@ -38,6 +40,8 @@ class Voice implements VoiceInterface
      * Returns metadata about a specific voice.
      *
      * @return array metadata of voice
+     * 
+     * See: https://docs.elevenlabs.io/api-reference/voices-get
      */
     public function getVoice(string $voice_id): array
     {
@@ -58,6 +62,8 @@ class Voice implements VoiceInterface
      * in the web app and "stability" corresponds to "Stability" slider in the web ap
      *
      * @return array The list of voices.
+     * 
+     * See: https://docs.elevenlabs.io/api-reference/voices-settings-default
      */
     public function defaultSettings() {
         try {
@@ -75,6 +81,8 @@ class Voice implements VoiceInterface
      * in the web app and "stability" corresponds to "Stability" slider in the web ap
      *
      * @return array The list of voices.
+     * 
+     * See: https://docs.elevenlabs.io/api-reference/voices-settings
      */
     public function voiceSettings(string $voice_id) {
         if(empty($voice_id)) {
