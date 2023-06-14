@@ -1,6 +1,5 @@
 {
     "name": "georgehadjisavva/elevenlabs-api-client",
-    "version": "1.0.0",
     "description": "Wrapper client for elevenlabs api",
     "type": "library",
     "license": "MIT",
@@ -34,8 +33,7 @@
     },
     "require-dev":{
         "pestphp/pest": "^2.6",
-        "vimeo/psalm": "^5.12",
-        "illuminate/support": "^10.13"
+        "vimeo/psalm": "^5.12"
     },
     "scripts" : {
         "test" : "./vendor/bin/pest"
