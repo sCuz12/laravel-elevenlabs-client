@@ -1,6 +1,7 @@
 {
     "name": "georgehadjisavva/elevenlabs-api-client",
     "description": "Wrapper client for elevenlabs api",
+    "version": "1.0.0",
     "type": "library",
     "license": "MIT",
     "autoload": {
