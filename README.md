@@ -34,6 +34,8 @@ Route::get('/test_elevenlabsclient', function() {
     return $elevenLabsClient->voices()->getAll();
 });
 ```
+&nbsp;
+&nbsp;
 
 
 # **Voice Class**
