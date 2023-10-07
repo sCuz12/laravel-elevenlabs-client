@@ -47,5 +47,13 @@
         "allow-plugins": {
             "pestphp/pest-plugin": true
         }
+    },
+    "extra": {
+    "laravel": {
+      "providers": [
+        "Georgehadjisavva\\ElevenLabsClient\\Providers\\ElevenLabsClientServiceProvider"
+      ]
     }
+  }
+    
 }
