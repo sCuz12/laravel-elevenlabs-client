@@ -49,10 +49,10 @@
         }
     },
     "extra": {
-    "laravel": {
-      "providers": [
-        "Georgehadjisavva\\ElevenLabsClient\\Providers\\ElevenLabsClientServiceProvider"
-      ]
-    }
+        "laravel": {
+            "providers": [
+                "Georgehadjisavva\\ElevenLabsClient\\Providers\\ElevenLabsClientServiceProvider"
+            ]
+        }
   }
 }
