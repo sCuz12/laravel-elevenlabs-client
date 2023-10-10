@@ -1,12 +1,12 @@
 {
     "name": "georgehadjisavva/elevenlabs-api-client",
     "description": "Wrapper client for elevenlabs api",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "type": "library",
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Georgehadjisavva\\ElevenLabsClient\\": "src/" 
+            "Georgehadjisavva\\ElevenLabsClient\\": "src/"
         },
         "files": [
             "src/Providers/ElevenLabsClientServiceProvider.php"
