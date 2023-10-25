@@ -27,12 +27,26 @@ ELEVEN_API_KEY=your-api-key
 You can then use the package by accessing the ElevenLabsClient instance. For example, you can add the following route to your web.php or api.php file to test that the library is working:
 
 ```bash
-use Georgehadjisavva\ElevenLabsClient\Facades\ElevenLabsClient;
+<?php
+
+use Illuminate\Support\Facades\Route;
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider and all of them will
+| be assigned to the "web" middleware group. Make something great!
+|
+*/
 
 Route::get('/test_elevenlabsclient', function() {
-    $elevenLabsClient = app()->make(ElevenLabsClient::class);
+    $elevenLabsClient = app()->make(\Georgehadjisavva\ElevenLabsClient\ElevenLabsClient::class);
     return $elevenLabsClient->voices()->getAll();
 });
+
 ```
 &nbsp;
 &nbsp;
