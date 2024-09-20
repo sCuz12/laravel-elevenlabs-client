@@ -29,7 +29,7 @@
     "require": {
         "php": "^8.0",
         "guzzlehttp/guzzle": "^7.7",
-        "illuminate/support": "^10.13"
+        "illuminate/support": "^11.0"
     },
     "require-dev":{
         "pestphp/pest": "^2.6",
