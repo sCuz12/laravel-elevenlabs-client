@@ -8,8 +8,17 @@ This is a Laravel package that serves as a wrapper for ElevenLabs Voice Generati
 
 You can install the package via Composer. Run the following command:
 
+```json
+"repositories": [
+    {
+        "type": "vcs",
+        "url": "https://github.com/ahmed3salah/laravel-elevenlabs-client-laravel11"
+    }
+]
+```
+
 ```bash
-composer require georgehadjisavva/elevenlabs-api-client
+composer require georgehadjisavva/elevenlabs-api-client:dev-laravel-11
 ```
 Next, you need to add the service provider in your Laravel application's config/app.php file. Open the file and locate the 'providers' array. Add the following line to the array:
 
